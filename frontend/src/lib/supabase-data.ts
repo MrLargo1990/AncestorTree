@@ -436,7 +436,7 @@ export async function reviewContribution(
   // If approving an update, apply the changes to the person record
   if (status === 'approved' && contribution.change_type === 'update' && contribution.target_person) {
     const allowedFields = [
-      'display_name', 'first_name', 'middle_name', 'surname',
+      'display_name', 'first_name', 'middle_name', 'surname', 'pen_name', 'taboo_name',
       'phone', 'email', 'zalo', 'facebook', 'address', 'hometown',
       'birth_year', 'death_year', 'death_lunar', 'birth_place', 'death_place',
       'occupation', 'biography', 'notes',

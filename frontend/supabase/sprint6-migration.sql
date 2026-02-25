@@ -219,3 +219,11 @@ USING (
     AND profiles.role = 'admin'
   )
 );
+
+-- ═══════════════════════════════════════════════════════════════════════════
+-- FR-906: Add Vietnamese cultural name fields to people table
+-- pen_name = Tên tự (courtesy name), taboo_name = Tên húy (taboo name)
+-- ═══════════════════════════════════════════════════════════════════════════
+
+ALTER TABLE people ADD COLUMN IF NOT EXISTS pen_name VARCHAR(100);
+ALTER TABLE people ADD COLUMN IF NOT EXISTS taboo_name VARCHAR(100);

@@ -11,6 +11,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { GitBranchPlus, Calendar, Users, ArrowRight } from 'lucide-react';
 import { StatsCard } from '@/components/home/stats-card';
+import { FeaturedCharter } from '@/components/home/featured-charter';
 
 const features = [
   {
@@ -96,6 +97,11 @@ export default function HomePage() {
       {/* Stats Section - Dynamic */}
       <section className="container mx-auto px-4 py-12 md:py-16">
         <StatsCard />
+      </section>
+
+      {/* Featured Charter */}
+      <section className="container mx-auto px-4 py-12 md:py-16">
+        <FeaturedCharter />
       </section>
 
       {/* Upcoming Events */}

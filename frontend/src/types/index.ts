@@ -11,6 +11,8 @@ export interface Person {
   first_name?: string;
   middle_name?: string;
   surname?: string;
+  pen_name?: string;    // Tên tự (courtesy name)
+  taboo_name?: string;  // Tên húy (taboo name)
   gender: 1 | 2; // 1=Male, 2=Female
   generation: number;
   chi?: number;

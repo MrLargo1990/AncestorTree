@@ -138,6 +138,13 @@ export default function PersonDetailPage({ params }: PageProps) {
                 </div>
               </div>
 
+              {(person.pen_name || person.taboo_name) && (
+                <div className="flex gap-4 mt-1 text-sm text-muted-foreground">
+                  {person.taboo_name && <span>Tên húy: <strong>{person.taboo_name}</strong></span>}
+                  {person.pen_name && <span>Tên tự: <strong>{person.pen_name}</strong></span>}
+                </div>
+              )}
+
               {person.occupation && (
                 <p className="text-muted-foreground mt-2 flex items-center gap-2">
                   <Briefcase className="h-4 w-4" />

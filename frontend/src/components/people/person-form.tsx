@@ -45,6 +45,8 @@ export function PersonForm({ person, onSubmit, isLoading }: PersonFormProps) {
       first_name: person.first_name || '',
       middle_name: person.middle_name || '',
       surname: person.surname || '',
+      pen_name: person.pen_name || '',
+      taboo_name: person.taboo_name || '',
       gender: person.gender,
       generation: person.generation,
       chi: person.chi || undefined,
@@ -149,6 +151,37 @@ export function PersonForm({ person, onSubmit, isLoading }: PersonFormProps) {
                     <FormControl>
                       <Input placeholder="Tài" {...field} />
                     </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <FormField
+                control={form.control}
+                name="pen_name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Tên tự</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Tên tự (courtesy name)" {...field} />
+                    </FormControl>
+                    <FormDescription>Tên chữ dùng trong giao tiếp</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="taboo_name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Tên húy</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Tên húy (taboo name)" {...field} />
+                    </FormControl>
+                    <FormDescription>Tên thật, kiêng gọi trực tiếp</FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}

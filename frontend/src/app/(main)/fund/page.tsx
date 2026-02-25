@@ -16,12 +16,55 @@ import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Separator } from '@/components/ui/separator';
+import { Button } from '@/components/ui/button';
 import {
   BookOpen, Wallet, ArrowDownCircle, ArrowUpCircle,
-  GraduationCap, Award,
+  GraduationCap, Award, Printer, Download,
 } from 'lucide-react';
 import { formatVND } from '@/lib/format';
-import type { Person, ScholarshipStatus } from '@/types';
+import type { Person, FundTransaction, Scholarship, ScholarshipStatus, FundBalance } from '@/types';
+
+function exportFundReport(
+  balance: FundBalance | undefined,
+  transactions: FundTransaction[],
+  scholarships: Scholarship[],
+  peopleMap: Map<string, Person>,
+) {
+  const lines: string[] = [];
+  lines.push('BÁO CÁO QUỸ KHUYẾN HỌC - CHI TỘC ĐẶNG ĐÌNH');
+  lines.push(`Ngày xuất: ${new Date().toLocaleDateString('vi-VN')}`);
+  lines.push('');
+  lines.push('=== TỔNG QUAN ===');
+  lines.push(`Tổng thu: ${formatVND(balance?.income || 0)}`);
+  lines.push(`Tổng chi: ${formatVND(balance?.expense || 0)}`);
+  lines.push(`Số dư: ${formatVND(balance?.balance || 0)}`);
+  lines.push('');
+  lines.push('=== HỌC BỔNG & KHEN THƯỞNG ===');
+  lines.push('Họ tên,Loại,Số tiền,Năm học,Trường,Khối/Lớp,Trạng thái');
+  for (const s of scholarships) {
+    const name = peopleMap.get(s.person_id)?.display_name || 'Không rõ';
+    const type = s.type === 'hoc_bong' ? 'Học bổng' : 'Khen thưởng';
+    const status = s.status === 'paid' ? 'Đã cấp' : s.status === 'approved' ? 'Đã duyệt' : 'Chờ duyệt';
+    lines.push(`"${name}","${type}",${s.amount},"${s.academic_year}","${s.school || ''}","${s.grade_level || ''}","${status}"`);
+  }
+  lines.push('');
+  lines.push('=== LỊCH SỬ GIAO DỊCH ===');
+  lines.push('Ngày,Loại,Người/Mô tả,Số tiền,Năm học');
+  for (const tx of transactions) {
+    const date = new Date(tx.transaction_date).toLocaleDateString('vi-VN');
+    const type = tx.type === 'income' ? 'Thu' : 'Chi';
+    const desc = tx.donor_name || tx.description || '';
+    lines.push(`"${date}","${type}","${desc}",${tx.amount},"${tx.academic_year || ''}"`);
+  }
+
+  const blob = new Blob(['\uFEFF' + lines.join('\n')], { type: 'text/csv;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `bao-cao-quy-khuyen-hoc-${new Date().toISOString().slice(0, 10)}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
 
 function getStatusBadge(status: ScholarshipStatus) {
   switch (status) {
@@ -78,12 +121,28 @@ export default function FundPage() {
 
   return (
     <div className="container mx-auto px-4 py-8 space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold flex items-center gap-2">
-          <BookOpen className="h-6 w-6" />
-          Quỹ Khuyến học
-        </h1>
-        <p className="text-muted-foreground">Quản lý quỹ khuyến học, học bổng và khen thưởng</p>
+      <div className="flex items-start justify-between">
+        <div>
+          <h1 className="text-2xl font-bold flex items-center gap-2">
+            <BookOpen className="h-6 w-6" />
+            Quỹ Khuyến học
+          </h1>
+          <p className="text-muted-foreground">Quản lý quỹ khuyến học, học bổng và khen thưởng</p>
+        </div>
+        <div className="flex gap-2 print:hidden">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => exportFundReport(balance, transactions || [], scholarships || [], peopleMap)}
+          >
+            <Download className="h-4 w-4 mr-2" />
+            Xuất CSV
+          </Button>
+          <Button variant="outline" size="sm" onClick={() => window.print()}>
+            <Printer className="h-4 w-4 mr-2" />
+            In báo cáo
+          </Button>
+        </div>
       </div>
 
       {/* Stats */}
