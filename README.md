@@ -1,6 +1,6 @@
 # AncestorTree
 
-> **Gia Pha Dien Tu - Họ Đặng làng Kỷ Các, Thach Lam, Ha Tinh**
+> **Gia Pha Dien Tu - Họ Bùi thôn Thượng Tứ, Đức Thọ, Ha Tinh**
 
 Phan mem quan ly gia pha dien tu giup gin giu va truyen thua thong tin dong ho qua cac the he.
 
@@ -160,9 +160,7 @@ AncestorTree is designed to be **forked and customized**. Any Vietnamese family 
 
 Total setup time: ~30 minutes. Total cost: $0/month.
 
-## Built With
 
-This project was built using [TinySDLC](https://github.com/Minh-Tam-Solution/tinysdlc) agent orchestrator following [MTS-SDLC-Lite](https://github.com/Minh-Tam-Solution/MTS-SDLC-Lite) methodology.
 
 ## Contributing
 
